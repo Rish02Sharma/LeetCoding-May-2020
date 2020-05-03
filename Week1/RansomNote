@@ -1,0 +1,57 @@
+//2 ms Runtime Solution
+class Solution {
+    private static final int R = 26;
+    
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int[] pool = new int[R];
+        
+        for (char c : ransomNote.toCharArray()) pool[c - 'a'] -= 1;
+        
+        for (char c : magazine.toCharArray()) pool[c - 'a'] += 1;
+        
+        for (int i = 0; i < R; i += 1) if (pool[i] < 0) return false;
+        
+        return true;
+    }
+}
+
+//40 ms Runtime solution through HashMap
+class Solution {
+    
+    void convertToMap(int len, String str, HashMap<Character, Integer> map){
+        for(int i=0; i<len; i++){
+            char current = str.charAt(i);
+            if(map.containsKey(current)){
+                map.put(current, map.get(current) + 1);
+            }else{
+                map.put(current, 1);
+            }
+        }
+    }
+    
+    
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int r = ransomNote.length();
+        int m = magazine.length();
+        
+        HashMap<Character, Integer> rmap = new HashMap<>();
+        convertToMap(r, ransomNote, rmap);
+        
+         HashMap<Character, Integer> mmap = new HashMap<>();
+        convertToMap(m, magazine, mmap);
+        
+        for(int j=0; j<r; j++){
+            char current = ransomNote.charAt(j);
+            
+            if(mmap.get(current) == null)
+                return false;
+            
+            if(rmap.get(current) <= mmap.get(current)){
+                continue;
+            }else{
+                return false;
+            }
+        }
+            return true;
+    }
+}
