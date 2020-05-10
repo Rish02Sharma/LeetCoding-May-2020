@@ -19,3 +19,36 @@ class Solution {
         return false;
     }
 }
+
+
+// OR //
+
+class Solution {
+    public boolean isPerfectSquare(int num) {
+        
+        long lo = 0, hi = num;
+        
+        while (lo + 1 < hi) {
+            
+            long mid = lo + (hi-lo)/2;
+            
+            long guess = mid*mid;
+            
+            if (guess == (long)num) {
+                return true;
+            }
+            
+            if (guess > (long)num) {
+                hi = mid - 1;        
+            } else {
+                lo = mid + 1;
+            }
+            
+        }
+        
+        System.out.println(String.format("lo %d hi %d", lo, hi));
+        
+        return (long)(lo*lo) == num || (long)(hi*hi) == num;
+        
+    }
+}
